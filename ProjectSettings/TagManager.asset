@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 3
+  tags: []
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - emitter
+  - Water
+  - UI
+  - Blocks
+  - Mirrors
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Backgorund
+    uniqueID: 3218087541
+    locked: 0
+  - name: Blocks
+    uniqueID: 1188979817
+    locked: 0
+  - name: Emiter
+    uniqueID: 2820203829
+    locked: 0
+  - name: Mirror
+    uniqueID: 2162146949
+    locked: 0
+  m_RenderingLayers:
+  - Default
