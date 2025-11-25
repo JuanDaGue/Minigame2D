@@ -8,6 +8,7 @@ public class MirrorManager : MonoBehaviour
 
     private GameObject activeMirror;
 
+
     // void Start()
     // {
     //     // Opcional: si hay alguno marcado en la lista, activamos el primero
@@ -18,7 +19,28 @@ public class MirrorManager : MonoBehaviour
     public void SetActiveMirror(GameObject mirror)
     {
         if (mirror == activeMirror) return;
-
+    
+        
+    
+        // Activar el seleccionado (si tiene LigthsController)
+        if (mirror != null)
+        {
+            if (activeMirror != null)
+            {
+                var mmc = activeMirror.GetComponent<MirrorMoveController>();
+                if (mmc != null)
+                    mmc.canMoveObject = false;
+            }
+            var lc = mirror.GetComponent<LigthsController>();
+            if (lc != null)
+            {
+                lc.ForceActivate();
+            }
+        }
+        activeMirror = mirror;
+    }
+    public void DeactiveAllMirrors()
+    {
         // Desactivar todos
         for (int i = 0; i < mirrors.Count; i++)
         {
@@ -30,17 +52,7 @@ public class MirrorManager : MonoBehaviour
                 lc.ForceDeactivate(); // método seguro para desactivar
             }
         }
-
-        // Activar el seleccionado (si tiene LigthsController)
-        if (mirror != null)
-        {
-            var lc = mirror.GetComponent<LigthsController>();
-            if (lc != null)
-            {
-                lc.ForceActivate();
-                activeMirror = mirror;
-            }
-        }
+        activeMirror = null;
     }
 
     // Helper para registrar dinámicamente espejos (opcional)

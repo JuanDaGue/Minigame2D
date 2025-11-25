@@ -21,6 +21,10 @@ public class MenuManager : MonoBehaviour
         {
             ligthsController.isFireLightOn= lightOn;
         }
+        if(mirrorManager != null)
+        {
+            mirrorManager.DeactiveAllMirrors();
+        }
     }
 
 

@@ -3,12 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Mirror
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - emitter
+  - Emitter
   - Water
   - UI
   - Blocks
