@@ -1,12 +1,27 @@
 using UnityEngine;
-using DG.Tweening; // Make sure DOTween is imported
+using DG.Tweening;
+using UnityEngine.Rendering.Universal; // Make sure DOTween is imported
 
 public class MirrorMoveController : MonoBehaviour
 {
-    public float rotationAmount = 10.0f;
+    [SerializeField]private float rotationAmount = 10.0f;
     public float rotationDuration = 0.3f;
     public Transform mirrorPoint;
     [SerializeField] private bool CanMoveObject = true;
+
+    private LineController lineController;
+    [SerializeField] private LigthsController mirrorLight;
+    public float RotationAmount
+    {
+        get { return rotationAmount; }
+        set { rotationAmount = value; }
+    }
+    [SerializeField] private MirrorState mirrorState;
+    public MirrorState MirrorState
+    {
+        get { return mirrorState; }
+        set { mirrorState = value; }
+    }
 
     public bool canMoveObject
     {
@@ -14,31 +29,78 @@ public class MirrorMoveController : MonoBehaviour
         set { CanMoveObject = value; }
     }
 
-    void Start()
+    void Awake()
     {
-        mirrorPoint = this.transform;
+
+        if (lineController == null) lineController = GetComponent<LineController>();
+        if (mirrorLight == null) mirrorLight = GetComponent<LigthsController>();
     }
 
     void Update()
     {
-        if (!canMoveObject || DOTween.IsTweening(mirrorPoint)) return;
+            if (!canMoveObject || mirrorPoint == null) return;
+            if (DOTween.IsTweening(mirrorPoint)) return;
+
+        lineController?.ShotRayline(mirrorPoint.up, 100f);
+
+        
 
         if (Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A))
         {
-            Debug.Log("Left Arrow Pressed");
+            Debug.Log("Left Arrow Pressed" + this.name);
             RotateMirror(Vector3.forward * rotationAmount);
         }
 
         if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D))
         {
-            Debug.Log("Right Arrow Pressed");
+            Debug.Log("Right Arrow Pressed" +this.name);
             RotateMirror(Vector3.back * rotationAmount);
+            //lineController.ShotRayline(mirrorPoint.up, 100f);
         }
     }
 
     void RotateMirror(Vector3 rotation)
     {
-        mirrorPoint.DORotate(mirrorPoint.eulerAngles + rotation, rotationDuration, RotateMode.Fast);
+        mirrorPoint.DORotate(mirrorPoint.eulerAngles + rotation, rotationDuration, RotateMode.Fast)
+            .OnUpdate(() =>
+            {
+                // Mientras el tween está activo, dibuja la línea
+                lineController.ShotRayline(mirrorPoint.up, 100f);
+            })
+            .OnComplete(() =>
+            {
+                Debug.Log("Rotation complete");
+            });
+    }
+    public void SwitchMirrorState(MirrorState newState)
+    {
+        mirrorState = newState;
+        switch (mirrorState)
+        {
+            case MirrorState.Active:
+                Debug.Log("Mirror is now Active");
+                mirrorLight.ForceActivate();
+                canMoveObject = true;
+                break;
+            case MirrorState.Deactive:
+                mirrorLight.ForceDeactivate();
+                canMoveObject = false;
+                Debug.Log("Mirror is now Deactive");
+                break;
+            case MirrorState.Setted:
+                mirrorLight.ForceActivate();
+                canMoveObject = false;
+                Debug.Log("Mirror is now Setted");
+                break;
+        }
+    }
+    void OnMouseDown()
+    {
+        Debug.Log("Mouse Down on " + gameObject.name);
+    }
+    void OnMouseDrag()
+    {
+        Debug.Log("Mouse Dragging " + gameObject.name);
     }
 }
 

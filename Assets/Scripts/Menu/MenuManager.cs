@@ -7,24 +7,16 @@ public class MenuManager : MonoBehaviour
     public GameObject EmiterLight;
     public CanvasGroup menuCanvasGroup;
     private bool canvasActive = true;
-    private bool lightOn = false;
+    //private bool lightOn = false;
     private LigthsController ligthsController;
 
-    public MirrorManager mirrorManager;
     void Start()
     {
         if (EmiterLight != null)
         {
             ligthsController = EmiterLight.GetComponent<LigthsController>();
         }
-        if (ligthsController != null)
-        {
-            ligthsController.isFireLightOn= lightOn;
-        }
-        if(mirrorManager != null)
-        {
-            mirrorManager.DeactiveAllMirrors();
-        }
+    
     }
 
 
@@ -46,7 +38,7 @@ public class MenuManager : MonoBehaviour
         //         sr.enabled = true;
         //     }
         // }
-        mirrorManager.SetActiveMirror(EmiterLight);
+        //mirrorManager.SetActiveMirror(EmiterLight);
         toggleCanvas();
     }
     public void ExitGame()
