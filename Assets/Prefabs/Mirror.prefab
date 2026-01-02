@@ -56,6 +56,7 @@ MonoBehaviour:
   rotationDuration: 0.3
   mirrorPoint: {fileID: 3065683322519482641}
   CanMoveObject: 0
+  mirrorLight: {fileID: 1718011220354546184}
   mirrorState: 1
 --- !u!61 &8082455902946448831
 BoxCollider2D:
@@ -154,7 +155,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8174263919433679981}
   - component: {fileID: 667729581240062379}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: DarkStructure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -395,7 +396,7 @@ MonoBehaviour:
   m_BlendStyleIndex: 0
   m_FalloffIntensity: 0.447
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 5
+  m_Intensity: 0
   m_LightVolumeIntensity: 0.002
   m_LightVolumeEnabled: 0
   m_ApplyToSortingLayers: 751ed0bf6964de46
@@ -419,7 +420,7 @@ MonoBehaviour:
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0.2
-  m_PointLightOuterRadius: 2.2
+  m_PointLightOuterRadius: 1.2
   m_ShapeLightParametricSides: 5
   m_ShapeLightParametricAngleOffset: 0
   m_ShapeLightParametricRadius: 1
@@ -440,7 +441,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1790359217849062564}
   - component: {fileID: 8745328769037644737}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: WhiteStructure
   m_TagString: Untagged
   m_Icon: {fileID: 0}

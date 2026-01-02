@@ -14,7 +14,7 @@ TagManager:
   - UI
   - Blocks
   - Mirrors
-  - 
+  - Interactives
   - 
   - 
   - 
@@ -53,6 +53,9 @@ TagManager:
     locked: 0
   - name: Mirror
     uniqueID: 2162146949
+    locked: 0
+  - name: Interactives
+    uniqueID: 1865660081
     locked: 0
   m_RenderingLayers:
   - Default

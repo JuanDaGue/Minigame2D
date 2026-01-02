@@ -9,6 +9,8 @@ public class MenuManager : MonoBehaviour
     private bool canvasActive = true;
     //private bool lightOn = false;
     private LigthsController ligthsController;
+    private MirrorManager2 mirrorManager;
+     
 
     void Start()
     {
@@ -16,7 +18,7 @@ public class MenuManager : MonoBehaviour
         {
             ligthsController = EmiterLight.GetComponent<LigthsController>();
         }
-    
+        GameManager.Instance.SetState(GameManager.States.Pause);
     }
 
 
@@ -26,20 +28,9 @@ public class MenuManager : MonoBehaviour
         {
             cameraToggle.SetCameraPriority();
         }
-        // if (ligthsController != null)
-        // {
-        //     ligthsController.isFireLightOn= true;
-        // }
-        // if (EmiterLight != null)
-        // {
-        //     SpriteRenderer sr = EmiterLight.GetComponent<SpriteRenderer>();
-        //     if (sr != null)
-        //     {
-        //         sr.enabled = true;
-        //     }
-        // }
-        //mirrorManager.SetActiveMirror(EmiterLight);
-        toggleCanvas();
+        GameManager.Instance.SetState(GameManager.States.InGame);
+
+        //toggleCanvas();
     }
     public void ExitGame()
     {

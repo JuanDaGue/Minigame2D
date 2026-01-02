@@ -35,7 +35,7 @@ public class LigthsController : MonoBehaviour
 
     // Intensity tween
     private Tween intensityTween;
-    private float currentIntensity = 0f;
+    [SerializeField] private float currentIntensity = 0f;
 
     // Line draw tween
     private Tween lineTween;
@@ -93,9 +93,9 @@ public void ForceDeactivate()
     .OnComplete(() => Debug.Log("Light turned off"));
 
     // Fade sprite out
+    intensityTween.Play();
     mirrorSprite.DOFade(0f, Mathf.Min(0.5f, OnTimeduration * 0.5f)).SetEase(Ease.OutQuad);
 
-    intensityTween.Play();
 }
 
     public void ApplyLightAttributes(float distance)
@@ -109,7 +109,23 @@ public void ForceDeactivate()
         fireLight.pointLightOuterAngle = fireLightSpotAngle;
     }
 
+    public void IntensityController(float newIntensity)
+    {
+        if(newIntensity== currentIntensity || currentIntensity<=0) return;
+        intensityTween?.Kill();
 
+        intensityTween = DOVirtual.Float(currentIntensity, newIntensity, Mathf.Min(0.5f, OnTimeduration * 0.5f), v =>
+        {
+            currentIntensity = v;
+            fireLight.intensity = v;
+            SecondaryLight.intensity = v;
+        })
+        .SetEase(Ease.InElastic)
+        .OnComplete(() => Debug.Log("Light turned off"));
+
+        // Fade sprite out
+        intensityTween.Play();
+    }
     void OnDrawGizmos()
     {
             Gizmos.color = Color.red;
