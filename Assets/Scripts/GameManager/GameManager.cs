@@ -31,7 +31,10 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
     }
-
+    void Start()
+    {
+        SetState(States.InMenu);
+    }
     public void SetState(States newState)
     {
         CurrentState = newState;

@@ -9,7 +9,7 @@ public class MenuManager : MonoBehaviour
     private bool canvasActive = true;
     //private bool lightOn = false;
     private LigthsController ligthsController;
-    private MirrorManager2 mirrorManager;
+    //private MirrorManager2 mirrorManager;
      
 
     void Start()
@@ -18,7 +18,7 @@ public class MenuManager : MonoBehaviour
         {
             ligthsController = EmiterLight.GetComponent<LigthsController>();
         }
-        GameManager.Instance.SetState(GameManager.States.Pause);
+        //GameManager.Instance.SetState(GameManager.States.Pause);
     }
 
 
@@ -30,7 +30,7 @@ public class MenuManager : MonoBehaviour
         }
         GameManager.Instance.SetState(GameManager.States.InGame);
 
-        //toggleCanvas();
+       Debug.Log("[MenuManager] Game Started");
     }
     public void ExitGame()
     {

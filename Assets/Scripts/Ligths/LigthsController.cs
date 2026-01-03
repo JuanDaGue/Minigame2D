@@ -109,8 +109,9 @@ public void ForceDeactivate()
         fireLight.pointLightOuterAngle = fireLightSpotAngle;
     }
 
-    public void IntensityController(float newIntensity)
+    public void IntensityController(float amount)
     {
+        float newIntensity= currentIntensity- amount;
         if(newIntensity== currentIntensity || currentIntensity<=0) return;
         intensityTween?.Kill();
 

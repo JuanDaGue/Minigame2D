@@ -58,6 +58,11 @@ MonoBehaviour:
   CanMoveObject: 0
   mirrorLight: {fileID: 1718011220354546184}
   mirrorState: 1
+  dragToRotationSpeed: 0.1
+  invertDrag: 0
+  pinchSensitivity: 0.02
+  minRotationAmount: 1
+  maxRotationAmount: 90
 --- !u!61 &8082455902946448831
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -120,7 +125,7 @@ MonoBehaviour:
   ligthsController: {fileID: 1718011220354546184}
   layerMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
 --- !u!114 &1718011220354546184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,9 +147,10 @@ MonoBehaviour:
   fireLightSpotAngle: 45
   layerMask:
     serializedVersion: 2
-    m_Bits: 192
+    m_Bits: 448
   OnTimeduration: 3
   ease: 1
+  currentIntensity: 0
 --- !u!1 &2299818638532179952
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +290,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 0.002
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 751ed0bf6964de46
+  m_ApplyToSortingLayers: 751ed0bf6964de46b1b6336f
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -399,7 +405,7 @@ MonoBehaviour:
   m_Intensity: 0
   m_LightVolumeIntensity: 0.002
   m_LightVolumeEnabled: 0
-  m_ApplyToSortingLayers: 751ed0bf6964de46
+  m_ApplyToSortingLayers: 751ed0bf6964de46b1b6336f
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0

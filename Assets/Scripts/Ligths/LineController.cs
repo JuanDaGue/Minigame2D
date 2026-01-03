@@ -46,7 +46,20 @@ public class LineController : MonoBehaviour
 
                 OnMirrorHit?.Invoke(mirror);   
             }
-            
+            IInteractivesObject interactable = hit.collider.GetComponent<IInteractivesObject>();
+        if (interactable != null)
+        {
+            bool canInteract = false;
+
+            canInteract = interactable.CanInteract();
+            if (canInteract)
+            {
+
+                interactable.OnInteract();
+                Debug.Log($"[LineController] Interacted with {hit.collider.name}");
+
+            }
+        }
             
         }
         else
