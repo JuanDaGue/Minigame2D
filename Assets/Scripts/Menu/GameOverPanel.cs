@@ -1,34 +1,62 @@
-using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
 public class GameOverPanel : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private Coroutine restartCoroutine;
+
+    private void OnEnable()
     {
-        GameManager.Instance.OnGameOver += RestartGame;
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.OnGameOver += RestartGame;
+            Debug.Log("[GameOverPanel] Subscribed to OnGameOver event");
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (GameManager.Instance != null)
+        {
+            Debug.Log("[GameOverPanel] OnDisable unsubscribing from OnGameOver");
+            GameManager.Instance.OnGameOver -= RestartGame;
+        }
+
+        // Ensure coroutine is stopped when object is disabled
+        if (restartCoroutine != null)
+        {
+            StopCoroutine(restartCoroutine);
+            restartCoroutine = null;
+        }
     }
 
     private void RestartGame()
     {
-        StartCoroutine(RestartCoroutine());
+        // If a restart is already scheduled, ignore or restart the timer:
+        Debug.Log("[GameOverPanel] RestartGame called");
+        if (restartCoroutine != null)
+        {
+            // Option A: ignore duplicate calls
+            return;
+
+            // Option B: restart timer instead
+            // StopCoroutine(restartCoroutine);
+            // restartCoroutine = StartCoroutine(RestartCoroutine());
+        }
+
+        restartCoroutine = StartCoroutine(RestartCoroutine());
     }
 
-    IEnumerator RestartCoroutine()
+    private IEnumerator RestartCoroutine()
     {
         yield return new WaitForSecondsRealtime(3f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 
-    void OnDestroy()
-    {
-        GameManager.Instance.OnGameOver -= RestartGame;
-    }
-    void OnDisable()
-    {
-        GameManager.Instance.OnGameOver -= RestartGame;
-    }
+        // Use LoadSceneAsync to avoid a frame hitch on large scenes
+        var asyncOp = SceneManager.LoadSceneAsync(SceneManager.GetActiveScene().buildIndex);
+        // If you want to block until load completes, uncomment the next line:
+        // while (!asyncOp.isDone) yield return null;
 
-
+        restartCoroutine = null;
+    }
 }

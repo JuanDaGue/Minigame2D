@@ -12,6 +12,7 @@ public class GlobalTime : MonoBehaviour
 
     [Header("Runtime (read only)")]
     [SerializeField] private float currentTime;
+    private bool finishedFired = false;
 
     // Events
     public event Action OnIntervalReached;
@@ -43,40 +44,53 @@ public class GlobalTime : MonoBehaviour
         Tick(Time.deltaTime);
     }
 
-    private void Tick(float delta)
-    {
-        currentTime -= delta;
-        // Clamp to zero
-        if (currentTime < 0f) currentTime = 0f;
+private void Tick(float delta)
+{
+    if (finishedFired) return; // already finished, nothing to do
 
-        // Check interval event(s). Use <= because we count down.
-        if (currentTime <= nextIntervalTime && nextIntervalTime > 0f)
+    currentTime -= delta;
+    if (currentTime < 0f) currentTime = 0f;
+
+    // Handle one or more interval events that may have been crossed this frame
+    // Only process intervals if eventInterval is positive
+    if (eventInterval > 0f)
+    {
+        while (currentTime <= nextIntervalTime && nextIntervalTime > 0f)
         {
             Debug.Log($"[GlobalTime] Interval reached at time {currentTime:F2}s (nextIntervalTime={nextIntervalTime:F2})");
             SafeInvokeInterval();
-            // schedule next interval (avoid infinite loop if interval <= 0)
             nextIntervalTime = Mathf.Max(0f, nextIntervalTime - eventInterval);
-        }
-
-        // Timer finished
-        if (currentTime <= 0f)
-        {
-            Debug.Log("[GlobalTime] Timer finished");
-            SafeInvokeFinished();
-            GameManager.Instance.SetState(GameManager.States.GameOver);
+            // safety: break if somehow stuck
+            if (eventInterval <= 0f) break;
         }
     }
 
+    // Timer finished (run once)
+    if (currentTime <= 0f && !finishedFired)
+    {
+        finishedFired = true;
+        Debug.Log("[GlobalTime] Timer finished (firing once)");
+        SafeInvokeFinished();
+
+        // stop ticking to avoid re-entrancy
+        isPaused = true;
+
+        // call GameManager safely
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.SetState(GameManager.States.GameOver);
+        }
+        else
+        {
+            Debug.LogWarning("[GlobalTime] GameManager.Instance is null when trying to set GameOver.");
+        }
+    }
+}
+
+
     private void SafeInvokeInterval()
     {
-        try
-        {
-            OnIntervalReached?.Invoke();
-        }
-        catch (Exception ex)
-        {
-            Debug.LogError($"[GlobalTime] Exception in OnIntervalReached handler: {ex}");
-        }
+        OnIntervalReached?.Invoke();
     }
 
     private void SafeInvokeFinished()
@@ -113,8 +127,10 @@ public class GlobalTime : MonoBehaviour
         currentTime = totalTime;
         nextIntervalTime = Mathf.Max(0f, currentTime - eventInterval);
         isPaused = startPaused;
+        finishedFired = false;
         Debug.Log("[GlobalTime] Reset timer");
     }
+
 
     /// <summary> Reduce the event interval by reductionAmount (clamped). </summary>
     public void ReduceInterval(float amount)

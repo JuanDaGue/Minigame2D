@@ -35,7 +35,7 @@ public class LineController : MonoBehaviour
         if (hit.collider != null)
         {
             laserLinePoints.DrawLaserRay(firePoint.position, hit.point);
-            Debug.Log("Ray hit: " + hit.collider.name);
+            //Debug.Log("Ray hit: " + hit.collider.name);
             MirrorMoveController mirror = hit.collider.GetComponent<MirrorMoveController>();
             float distance = Vector3.Distance(firePoint.position, hit.point);
             //Debug.Log("Hit distance: " + distance);

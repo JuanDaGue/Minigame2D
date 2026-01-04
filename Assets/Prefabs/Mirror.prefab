@@ -58,11 +58,11 @@ MonoBehaviour:
   CanMoveObject: 0
   mirrorLight: {fileID: 1718011220354546184}
   mirrorState: 1
-  dragToRotationSpeed: 0.1
+  dragToRotationSpeed: 0.05
   invertDrag: 0
   pinchSensitivity: 0.02
   minRotationAmount: 1
-  maxRotationAmount: 90
+  maxRotationAmount: 50
 --- !u!61 &8082455902946448831
 BoxCollider2D:
   m_ObjectHideFlags: 0

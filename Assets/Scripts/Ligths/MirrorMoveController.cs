@@ -124,13 +124,13 @@ public class MirrorMoveController : MonoBehaviour
             return;
         }
 
-        if (!canMoveObject || mirrorPoint == null)
-        {
-            Debug.Log("[MirrorMoveController] Tap ignored - cannot move or mirrorPoint null");
-            return;
-        }
+        // if (!canMoveObject || mirrorPoint == null)
+        // {
+        //     Debug.Log("[MirrorMoveController] Tap ignored - cannot move or mirrorPoint null");
+        //     return;
+        // }
 
-        if (!IsScreenPosOverThisMirror(screenPos))
+        if (!IsScreenPosOverThisMirror2D(screenPos))
         {
             Debug.Log("[MirrorMoveController] Tap not over this mirror - ignoring");
             return;
@@ -243,26 +243,31 @@ public class MirrorMoveController : MonoBehaviour
         }
     }
 
-    private bool IsScreenPosOverThisMirror(Vector2 screenPos)
+private bool IsScreenPosOverThisMirror2D(Vector2 screenPos, int layerMask = Physics2D.DefaultRaycastLayers)
+{
+    Camera cam = Camera.main;
+    if (cam == null) return false;
+
+    // Convertir pantalla -> mundo. Usamos la distancia desde la cámara al mirrorPoint
+    float zDistance = Mathf.Abs(cam.transform.position.z - mirrorPoint.position.z);
+    Vector3 worldPoint3D = cam.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, zDistance));
+
+    // OverlapPoint usa Vector2 (x,y)
+    Vector2 worldPoint2D = new Vector2(worldPoint3D.x, worldPoint3D.y);
+
+    // Comprueba colisionadores en ese punto
+    Collider2D hit = Physics2D.OverlapPoint(worldPoint2D, layerMask);
+    if (hit != null)
     {
-        Camera cam = Camera.main;
-        if (cam == null)
-        {
-            Debug.LogWarning("[MirrorMoveController] No main camera found for raycast");
-            return false;
-        }
-
-        Ray ray = cam.ScreenPointToRay(screenPos);
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-        {
-            bool hitThis = hit.transform == mirrorPoint || hit.transform.IsChildOf(mirrorPoint);
-            Debug.Log($"[MirrorMoveController] Raycast hit {hit.transform.name} (this mirror? {hitThis})");
-            return hitThis;
-        }
-
-        Debug.Log("[MirrorMoveController] Raycast hit nothing");
-        return false;
+        bool hitThis = hit.transform == mirrorPoint || hit.transform.IsChildOf(mirrorPoint);
+        Debug.Log($"[MirrorMoveController] 2D OverlapPoint hit {hit.transform.name} (this mirror? {hitThis})");
+        return hitThis;
     }
+
+    Debug.Log("[MirrorMoveController] 2D OverlapPoint hit nothing at " + worldPoint2D);
+    return false;
+}
+
 
     // Optional editor mouse callbacks for quick debug (still rely on raycast)
     private void OnMouseDown()

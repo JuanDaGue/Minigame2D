@@ -1,12 +1,8 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MirrorManager2 : MonoBehaviour
 {
-   // [Tooltip("List of mirror GameObjects that contain LightsController components")]
-    //public List<GameObject> mirrors = new List<GameObject>();
-
     [Tooltip("List of MirrorMoveController components for each mirror")]
     public List<MirrorMoveController> mirrorControllers = new List<MirrorMoveController>();
 
@@ -15,69 +11,87 @@ public class MirrorManager2 : MonoBehaviour
     [SerializeField] private LineController currentLineController;
     [SerializeField] private GlobalTime globalTime;
     [SerializeField] private float LigthReductionAmount;
+    [SerializeField] private CamerasManager camerasManager;
+
+    private bool isInitialized = false;
 
     private void Awake()
     {
+        // Optional: keep minimal editor-time checks but do not run full game initialization here.
         if (mirrorControllers.Count > 0)
         {
-            Debug.Log($"[MirrorManager2] Found {mirrorControllers.Count} mirrors assigned.");
-            currentMirror = mirrorControllers[0];
-            currentLineController = currentMirror.GetComponent<LineController>();  
+            Debug.Log($"[MirrorManager2] {mirrorControllers.Count} mirrors assigned in inspector.");
         }
-        if (currentMirror != null)
+        if( camerasManager == null)
         {
-            currentMirror.SwitchMirrorState(MirrorState.Active);
-            laserLinePoints.SubscribeLinePoints(currentMirror.transform);
-            mirrorControllers.Add(currentMirror);
-            Debug.Log($"[MirrorManager2] Initial active mirror: {currentMirror.name}");
-        } 
-        if (currentLineController != null) SubscribeMirror(currentLineController);
+            camerasManager = FindFirstObjectByType<CamerasManager>();
+        }   
     }
 
-    private void Start()
+    /// <summary>
+    /// Call this when the game actually starts (e.g., from MenuManager.StartGame).
+    /// Safe to call multiple times; it will only initialize once.
+    /// </summary>
+    public void InitializeForGame()
     {
-        if(globalTime == null)
+        if (isInitialized) return;
+        isInitialized = true;
+
+        // If currentMirror wasn't assigned, try to pick the first from the list
+        if (currentMirror == null && mirrorControllers.Count > 0)
+        {
+            currentMirror = mirrorControllers[0];
+        }
+
+        // Ensure currentMirror is in the list (but don't add duplicates)
+        if (currentMirror != null && !mirrorControllers.Contains(currentMirror))
+        {
+            mirrorControllers.Add(currentMirror);
+        }
+
+        // Setup current line controller
+        if (currentMirror != null)
+        {
+            currentLineController = currentMirror.GetComponent<LineController>();
+            currentMirror.SwitchMirrorState(MirrorState.Active);
+            laserLinePoints?.SubscribeLinePoints(currentMirror.transform);
+            Debug.Log($"[MirrorManager2] Initial active mirror: {currentMirror.name}");
+        }
+
+        // Subscribe to global time properly
+        if (globalTime == null)
         {
             globalTime = FindFirstObjectByType<GlobalTime>();
         }
-        else
+        if (globalTime != null)
         {
             globalTime.OnIntervalReached += LigthReductionEvent;
         }
 
         SubscribeMirrorEvents();
-        if(mirrorControllers.Count > 0) SetMirrorPointLines();
+        if (mirrorControllers.Count > 0) SetMirrorPointLines();
 
-        if (laserLinePoints != null && mirrorControllers.Count > 0)
-        {
-            Debug.Log($"[MirrorManager2] Drawing laser ray with {mirrorControllers.Count} points.");
-        }
-        if(currentMirror != null)
-        {
-            //Debug.Log($"[MirrorManager2] Current active mirror: {currentMirror.name}");
-            currentMirror.OnInputsSusbcribe();
-        }
+        if (currentLineController != null) SubscribeMirror(currentLineController);
+        if (currentMirror != null) currentMirror.OnInputsSusbcribe();
     }
 
     private void LigthReductionEvent()
     {
-        foreach(MirrorMoveController mirror in mirrorControllers)
+        foreach (MirrorMoveController mirror in mirrorControllers)
         {
-            if(mirror != null)
+            if (mirror == null) continue;
+            LigthsController mirrorLigths = mirror.GetComponent<LigthsController>();
+            if (mirrorLigths != null)
             {
-                LigthsController mirrorLigths = mirror.GetComponent<LigthsController>();
-                if (mirrorLigths != null)
-                {
-                    mirrorLigths.IntensityController(LigthReductionAmount);
-                }
+                mirrorLigths.IntensityController(LigthReductionAmount);
             }
         }
-        
     }
 
     private void OnDestroy()
     {
-        // Ensure we unsubscribe from all events to avoid leaks
+        if (globalTime != null) globalTime.OnIntervalReached -= LigthReductionEvent;
+
         foreach (var mirror in mirrorControllers)
         {
             var mirrorLine = mirror?.GetComponent<LineController>();
@@ -118,17 +132,16 @@ public class MirrorManager2 : MonoBehaviour
 
         if (currentMirror != null)
         {
-            // Rotate instantly toward the new mirror (could tween here if desired)
-            //currentMirror.transform.LookAt(controller.transform);
             currentMirror.SwitchMirrorState(MirrorState.Setted);
             currentMirror.OnInputsUnsubsbcribe();
             mirrorControllers.Add(controller);
         }
 
-        laserLinePoints.SubscribeLinePoints(controller.transform);
+        laserLinePoints?.SubscribeLinePoints(controller.transform);
 
         currentMirror = controller;
         currentMirror.SwitchMirrorState(MirrorState.Active);
+        camerasManager.MoveCameraToTarget(currentMirror.transform, 1.5f, new Vector3(0, 0, 0));
 
         UnsubscribeMirror(currentLineController);
         currentLineController = controller.GetComponent<LineController>();
@@ -145,7 +158,7 @@ public class MirrorManager2 : MonoBehaviour
         {
             if (mirror != null)
             {
-                laserLinePoints.SubscribeLinePoints(mirror.transform);
+                laserLinePoints?.SubscribeLinePoints(mirror.transform);
             }
         }
     }

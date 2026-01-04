@@ -13,7 +13,9 @@ public class GameManager : MonoBehaviour
         Pause
     }
 
-    public States CurrentState { get; private set; }
+    [SerializeField] private States currentState = States.InMenu;
+    public States CurrentState => currentState;
+
 
     // 🔔 Events for other systems to subscribe to
     public event Action<States> OnStateChanged;
@@ -29,15 +31,13 @@ public class GameManager : MonoBehaviour
             return;
         }
         Instance = this;
-        DontDestroyOnLoad(gameObject);
-    }
-    void Start()
-    {
         SetState(States.InMenu);
+        //DontDestroyOnLoad(gameObject);
     }
+
     public void SetState(States newState)
     {
-        CurrentState = newState;
+        currentState = newState;
 
         switch (newState)
         {
@@ -47,8 +47,8 @@ public class GameManager : MonoBehaviour
                 break;
 
             case States.GameOver:
-                Time.timeScale = 0;
                 OnGameOver?.Invoke();
+                //Time.timeScale = 1;
                 break;
 
             case States.InMenu:
