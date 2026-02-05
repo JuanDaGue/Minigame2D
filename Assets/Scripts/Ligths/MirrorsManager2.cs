@@ -17,39 +17,27 @@ public class MirrorManager2 : MonoBehaviour
 
     private void Awake()
     {
-        // Optional: keep minimal editor-time checks but do not run full game initialization here.
         if (mirrorControllers.Count > 0)
-        {
             Debug.Log($"[MirrorManager2] {mirrorControllers.Count} mirrors assigned in inspector.");
-        }
-        if( camerasManager == null)
-        {
+
+        if (camerasManager == null)
             camerasManager = FindFirstObjectByType<CamerasManager>();
-        }   
     }
 
     /// <summary>
-    /// Call this when the game actually starts (e.g., from MenuManager.StartGame).
-    /// Safe to call multiple times; it will only initialize once.
+    /// Call this when the game actually starts. Safe to call multiple times.
     /// </summary>
     public void InitializeForGame()
     {
         if (isInitialized) return;
         isInitialized = true;
 
-        // If currentMirror wasn't assigned, try to pick the first from the list
         if (currentMirror == null && mirrorControllers.Count > 0)
-        {
             currentMirror = mirrorControllers[0];
-        }
 
-        // Ensure currentMirror is in the list (but don't add duplicates)
         if (currentMirror != null && !mirrorControllers.Contains(currentMirror))
-        {
             mirrorControllers.Add(currentMirror);
-        }
 
-        // Setup current line controller
         if (currentMirror != null)
         {
             currentLineController = currentMirror.GetComponent<LineController>();
@@ -58,15 +46,10 @@ public class MirrorManager2 : MonoBehaviour
             Debug.Log($"[MirrorManager2] Initial active mirror: {currentMirror.name}");
         }
 
-        // Subscribe to global time properly
         if (globalTime == null)
-        {
             globalTime = FindFirstObjectByType<GlobalTime>();
-        }
         if (globalTime != null)
-        {
             globalTime.OnIntervalReached += LigthReductionEvent;
-        }
 
         SubscribeMirrorEvents();
         if (mirrorControllers.Count > 0) SetMirrorPointLines();
@@ -82,16 +65,16 @@ public class MirrorManager2 : MonoBehaviour
             if (mirror == null) continue;
             LigthsController mirrorLigths = mirror.GetComponent<LigthsController>();
             if (mirrorLigths != null)
-            {
                 mirrorLigths.IntensityController(LigthReductionAmount);
-            }
         }
     }
 
     private void OnDestroy()
     {
         if (globalTime != null) globalTime.OnIntervalReached -= LigthReductionEvent;
+        UnsubscribeMirrorEvents();
 
+        // Unsubscribe any remaining LineController handlers
         foreach (var mirror in mirrorControllers)
         {
             var mirrorLine = mirror?.GetComponent<LineController>();
@@ -101,47 +84,67 @@ public class MirrorManager2 : MonoBehaviour
 
     private void SubscribeMirrorEvents()
     {
+        // Subscribe to each mirror's tap event and its LineController
         foreach (var mirror in mirrorControllers)
         {
-            var mirrorLine = mirror?.GetComponent<LineController>();
+            if (mirror == null) continue;
+
+            // Ensure we don't double-subscribe
+            mirror.OnMirrorTapped -= HandleMirrorTapped;
+            mirror.OnMirrorTapped += HandleMirrorTapped;
+            Debug.Log($"[MirrorManager2] Subscribed to mirror tap: {mirror.name}");
+            var mirrorLine = mirror.GetComponent<LineController>();
             SubscribeMirror(mirrorLine);
+        }
+    }
+
+    private void UnsubscribeMirrorEvents()
+    {
+        foreach (var mirror in mirrorControllers)
+        {
+            if (mirror == null) continue;
+            mirror.OnMirrorTapped -= HandleMirrorTapped;
+
+            var mirrorLine = mirror.GetComponent<LineController>();
+            UnsubscribeMirror(mirrorLine);
         }
     }
 
     private void SubscribeMirror(LineController mirrorLine)
     {
-        if (mirrorLine != null)
-        {
-            mirrorLine.OnMirrorHit += HandleMirrorHit;
-            Debug.Log($"[MirrorManager2] Subscribed to mirror line: {mirrorLine.name}");
-        }
+        if (mirrorLine == null) return;
+        mirrorLine.OnMirrorHit -= HandleMirrorHit;
+        mirrorLine.OnMirrorHit += HandleMirrorHit;
+        Debug.Log($"[MirrorManager2] Subscribed to mirror line: {mirrorLine.name}");
     }
 
     private void UnsubscribeMirror(LineController mirrorLine)
     {
-        if (mirrorLine != null)
-        {
-            mirrorLine.OnMirrorHit -= HandleMirrorHit;
-            Debug.Log($"[MirrorManager2] Unsubscribed from mirror line: {mirrorLine.name}");
-        }
+        if (mirrorLine == null) return;
+        mirrorLine.OnMirrorHit -= HandleMirrorHit;
+        //Debug.Log($"[MirrorManager2] Unsubscribed from mirror line: {mirrorLine.name}");
     }
 
     private void HandleMirrorHit(MirrorMoveController controller)
     {
-        if (controller == null || mirrorControllers.Contains(controller)) return;
+        if (controller == null) return;
+
+        // If controller already in list, ignore (prevents duplicates)
+        if (mirrorControllers.Contains(controller)) return;
 
         if (currentMirror != null)
         {
             currentMirror.SwitchMirrorState(MirrorState.Setted);
             currentMirror.OnInputsUnsubsbcribe();
             mirrorControllers.Add(controller);
+            SubscribeMirrorEvents();
         }
 
         laserLinePoints?.SubscribeLinePoints(controller.transform);
 
         currentMirror = controller;
         currentMirror.SwitchMirrorState(MirrorState.Active);
-        camerasManager.MoveCameraToTarget(currentMirror.transform, 1.5f, new Vector3(0, 0, 0));
+        camerasManager?.MoveCameraToTarget(currentMirror.transform, 1.5f, Vector3.zero);
 
         UnsubscribeMirror(currentLineController);
         currentLineController = controller.GetComponent<LineController>();
@@ -149,17 +152,92 @@ public class MirrorManager2 : MonoBehaviour
         currentMirror.OnInputsSusbcribe();
         currentMirror.gameObject.layer = LayerMask.NameToLayer("Emitter");
 
-        Debug.Log($"[MirrorManager2] Mirror hit registered: {controller.name}");
+       // Debug.Log($"[MirrorManager2] Mirror hit registered: {controller.name}");
     }
 
     private void SetMirrorPointLines()
     {
         foreach (var mirror in mirrorControllers)
         {
-            if (mirror != null)
+            if (mirror == null) continue;
+            laserLinePoints?.SubscribeLinePoints(mirror.transform);
+        }
+    }
+
+    private void HandleMirrorTapped(MirrorMoveController tapped)
+    {
+        Debug.Log($"[MirrorManager2] HandleMirrorTapped {tapped==null}");
+        if (tapped == null) return;
+
+        int idx = mirrorControllers.IndexOf(tapped);
+        Debug.Log($"[MirrorManager2] Tapped mirror index: {idx}");
+        if (idx < 0)
+        {
+            Debug.LogWarning($"[MirrorManager2] Tapped mirror not found in list: {tapped.name}");
+            return;
+        }
+
+        RemoveMirrorsAfterIndex(idx);
+
+        // Make tapped the current mirror
+        currentMirror = tapped;
+        currentLineController = currentMirror?.GetComponent<LineController>();
+        if (currentLineController != null)
+            SubscribeMirror(currentLineController);
+
+        camerasManager?.MoveCameraToTarget(currentMirror.transform, 1.5f, Vector3.zero);
+    }
+
+    // Removes mirrors after the given index (exclusive). Cleans subscriptions and optionally destroys or deactivates.
+    private void RemoveMirrorsAfterIndex(int index)
+    {
+        for (int i = mirrorControllers.Count - 1; i > index; i--)
+        {
+            Debug.Log($"[MirrorManager2] Removing mirror at index {i}");
+            MirrorMoveController m = mirrorControllers[i];
+            if (m == null)
             {
-                laserLinePoints?.SubscribeLinePoints(mirror.transform);
+                mirrorControllers.RemoveAt(i);
+                continue;
             }
+
+            // 1) Change state
+            m.SwitchMirrorState(MirrorState.Deactive);
+
+            // 2) Unsubscribe inputs and tap event
+            m.OnInputsUnsubsbcribe();
+            m.OnMirrorTapped -= HandleMirrorTapped;
+
+            // 3) Unsubscribe LineController events
+            var line = m.GetComponent<LineController>();
+            if (line != null)
+                UnsubscribeMirror(line);
+
+            // 4) Try to call laserLinePoints.UnsubscribeLinePoints if method exists
+            if (laserLinePoints != null)
+            {
+                var mi = laserLinePoints.GetType().GetMethod("UnsubscribeLinePoints");
+                if (mi != null)
+                {
+                    try
+                    {
+                        mi.Invoke(laserLinePoints, new object[] { m.transform });
+                    }
+                    catch
+                    {
+                        // ignore reflection errors
+                    }
+                }
+            }
+
+            // 5) Remove from list
+            mirrorControllers.RemoveAt(i);
+
+            // 6) Optional: destroy or deactivate. Keep commented so you choose behavior.
+            // Destroy(m.gameObject);
+            m.gameObject.SetActive(false);
+
+            Debug.Log($"[MirrorManager2] Removed mirror {m.name} at index {i}");
         }
     }
 }
