@@ -3,14 +3,12 @@ using UnityEngine;
 
 public class MenuManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     public CamerasManager cameraToggle;
     public GameObject EmiterLight;
     public CanvasGroup menuCanvasGroup;
    
-    //private bool lightOn = false;
     private LigthsController ligthsController;
-    [SerializeField]private MirrorManager2 mirrorManager;
+    [SerializeField] private MirrorManager2 mirrorManager;
      
 
     void Start()
@@ -23,7 +21,7 @@ public class MenuManager : MonoBehaviour
     }
 
 
- public void StartGame()
+    public void StartGame()
     {
         if (cameraToggle != null)
         {
@@ -32,15 +30,14 @@ public class MenuManager : MonoBehaviour
 
         GameManager.Instance.SetState(GameManager.States.InGame);
 
-        // Initialize mirrors now that the game is InGame
+        // Find MirrorManager2 if not assigned
         if (mirrorManager == null)
         {
             mirrorManager = FindFirstObjectByType<MirrorManager2>();
         }
-        //mirrorManager?.InitializeForGame();
-        StartCoroutine(StarGameWithDelay(0.2f));
-        Debug.Log("[MenuManager] Game Started");
         
+        StartCoroutine(StartGameWithDelay(0.2f));
+        Debug.Log("[MenuManager] Game Started");
     }
 
 
@@ -49,12 +46,23 @@ public class MenuManager : MonoBehaviour
         Application.Quit();
     } 
 
-    IEnumerator StarGameWithDelay(float delay)
+    IEnumerator StartGameWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
-        mirrorManager?.InitializeForGame();
-
+        
+        // Initialize the mirror manager
+        if (mirrorManager != null)
+        {
+            // Use Initialize() instead of InitializeForGame()
+            mirrorManager.Initialize();
+            Debug.Log("[MenuManager] MirrorManager initialized");
+        }
+        else
+        {
+            Debug.LogError("[MenuManager] MirrorManager2 not found!");
+        }
     }
+    
     #if UNITY_EDITOR
     void OnApplicationQuit()
     {

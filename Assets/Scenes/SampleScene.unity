@@ -344,14 +344,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (7)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: ease
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.19
@@ -396,26 +388,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 1974594415}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -426,17 +398,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 1960766546}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &248410047 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 1960766546}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &285136555
 GameObject:
   m_ObjectHideFlags: 0
@@ -9330,10 +9291,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (3)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.84
@@ -9378,26 +9335,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 483930583}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9408,17 +9345,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 483930575}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &483930583 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 483930575}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &518403842
 GameObject:
   m_ObjectHideFlags: 0
@@ -10039,14 +9965,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (10)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: ease
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 22.2
@@ -10091,26 +10009,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 694220481}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10121,17 +10019,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 694220479}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &694220481 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 694220479}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &707374304
 GameObject:
   m_ObjectHideFlags: 0
@@ -10252,17 +10139,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 2085093596}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &781997311 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 2085093596}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &786312729
 GameObject:
   m_ObjectHideFlags: 0
@@ -10299,17 +10175,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 1917712151}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &841547028 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 1917712151}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &918410066 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3583529460318002476, guid: a55b0f4488c9e48409930307b3da4efe, type: 3}
@@ -10785,10 +10650,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 6.97
@@ -10833,26 +10694,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 1881763988}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -10921,17 +10762,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 1713504179}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1204890262 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 1713504179}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1221272640
 GameObject:
   m_ObjectHideFlags: 0
@@ -11342,6 +11172,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363248408}
   m_CullTransparentMesh: 1
+--- !u!1 &1402628247
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1402628248}
+  m_Layer: 0
+  m_Name: w
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1402628248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1402628247}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.27, y: 4.83, z: -1.9602945}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1423405024
 GameObject:
   m_ObjectHideFlags: 0
@@ -21755,17 +21616,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 1582194396}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1484376938 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 1582194396}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1514691580
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22063,14 +21913,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (8)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: ease
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 23.43
@@ -22115,26 +21957,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 1484376938}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22241,14 +22063,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (5)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: ease
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 7.85
@@ -22293,26 +22107,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 1204890262}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22374,17 +22168,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4182235133999632379, guid: ea0d75e6d343b5748966d34a7e1f70a6, type: 3}
   m_PrefabInstance: {fileID: 4627168780758297517}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1881763988 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 1085764163}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &1911198215
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22462,10 +22245,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Mirror (4)
       objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.62
@@ -22510,26 +22289,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 841547028}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22546,14 +22305,6 @@ PrefabInstance:
     - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_Name
       value: Mirror (6)
-      objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: ease
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22599,26 +22350,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 248410047}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22629,17 +22360,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
   m_PrefabInstance: {fileID: 204744568}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1974594415 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-  m_PrefabInstance: {fileID: 204744568}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c6d4d640a3dfd749b85d18a458d1770, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1982376477 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4691320713337074463, guid: a1dec61a8d4909244b5d6bac3ef6a15e, type: 3}
@@ -22672,14 +22392,6 @@ PrefabInstance:
     - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_Name
       value: Mirror (9)
-      objectReference: {fileID: 0}
-    - target: {fileID: 152062485929946906, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_TagString
-      value: Mirror
-      objectReference: {fileID: 0}
-    - target: {fileID: 1718011220354546184, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: ease
-      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
       propertyPath: m_LocalPosition.x
@@ -22725,26 +22437,6 @@ PrefabInstance:
       propertyPath: laserLinePoints
       value: 
       objectReference: {fileID: 285136558}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorLight
-      value: 
-      objectReference: {fileID: 781997311}
-    - target: {fileID: 6558092113838689997, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: mirrorState
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7800024286219215934, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7823215504170507636, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: OnTimeduration
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8371476755773264188, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
-      propertyPath: m_Intensity
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23297,3 +22989,4 @@ SceneRoots:
   - {fileID: 1337560669}
   - {fileID: 137224505}
   - {fileID: 1640059197}
+  - {fileID: 1402628248}

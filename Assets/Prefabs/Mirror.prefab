@@ -56,18 +56,15 @@ MonoBehaviour:
   rotationAmount: 10
   rotationDuration: 0.3
   mirrorPoint: {fileID: 3065683322519482641}
-  CanMoveObject: 0
-  mirrorLight: {fileID: 1718011220354546184}
-  mirrorState: 1
+  canMoveObject: 1
   dragToRotationSpeed: 0.05
   invertDrag: 0
-  pinchSensitivity: 0.02
-  minRotationAmount: 1
-  maxRotationAmount: 50
+  mirrorLight: {fileID: 1718011220354546184}
+  mirrorState: 1
+  onTapLight2D: {fileID: 3329736570230227319}
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  OnTapLigth2D: {fileID: 3329736570230227319}
 --- !u!61 &8082455902946448831
 BoxCollider2D:
   m_ObjectHideFlags: 0
