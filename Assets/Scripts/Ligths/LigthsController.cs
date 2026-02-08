@@ -132,4 +132,30 @@ public void ForceDeactivate()
             Gizmos.color = Color.red;
             Gizmos.DrawLine(firePoint.position, (Vector2)firePoint.position + (Vector2)firePoint.up * fireLightRange);
     }
+    // Añade este método a tu LigthsController.cs existente:
+public void SetIntensity(float intensity)
+{
+    // Assuming you have a Light2D component or similar
+    var light2D = GetComponent<Light2D>();
+    if (light2D != null)
+    {
+        light2D.intensity = intensity;
+    }
+    
+    // Or if you have multiple lights
+    var lights = GetComponentsInChildren<Light2D>();
+    foreach (var light in lights)
+    {
+        light.intensity = intensity;
+    }
+    
+    // You can also fade other visual elements here
+    var spriteRenderers = GetComponentsInChildren<SpriteRenderer>();
+    foreach (var sprite in spriteRenderers)
+    {
+        Color color = sprite.color;
+        color.a = intensity; // Use intensity for alpha
+        sprite.color = color;
+    }
+}
 }

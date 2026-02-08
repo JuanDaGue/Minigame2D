@@ -38,12 +38,20 @@ public class MirrorInputHandler : IMirrorInputHandler
     
     public bool CanProcessInput()
     {
-        return _stateController.CanMoveObject && !_rotator.IsRotating;
+        bool canProcess = _stateController.CanMoveObject && !_rotator.IsRotating;
+        return canProcess;
     }
     
     public void HandleTap(Vector2 screenPos)
     {
-        if (!CanProcessInput()) return;
+        Debug.Log($"[{_mirror.name}] ===== HANDLE TAP START =====");
+        Debug.Log($"[{_mirror.name}] Current State: {_stateController.CurrentState}");
+        
+        if (!CanProcessInput() && _stateController.CurrentState != MirrorState.Setted) 
+        {
+            Debug.Log($"[{_mirror.name}] Cannot process input and not Setted, returning");
+            return;
+        }
         
         // Ignore UI taps
         if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
@@ -53,7 +61,6 @@ public class MirrorInputHandler : IMirrorInputHandler
         }
         
         bool isOverMirror = _tapDetector.IsTapOverMirror(screenPos);
-        Debug.Log($"[{_mirror.name}] Is tap over this mirror? {isOverMirror}");
         
         // Visual feedback for any tap over mirror
         if (isOverMirror && _visualFeedback != null)
@@ -61,12 +68,44 @@ public class MirrorInputHandler : IMirrorInputHandler
             _visualFeedback.ToggleLight();
         }
         
-        // Only rotate if conditions are met
-        if (_isDragging || !isOverMirror) return;
+        // CRITICAL: Only Setted mirrors should trigger cleanup
+        if (_stateController.CurrentState != MirrorState.Setted)
+        {
+            if (isOverMirror && _stateController.CurrentState == MirrorState.Active)
+            {
+                Debug.Log($"[{_mirror.name}] Active mirror tapped - rotating only");
+                // Active mirrors still rotate
+                _rotator.Rotate(Vector3.back * _rotationAmount);
+            }
+            else
+            {
+                Debug.Log($"[{_mirror.name}] Tap ignored - not a Setted mirror (State: {_stateController.CurrentState})");
+            }
+            return;
+        }
         
-        Debug.Log($"[{_mirror.name}] Tap accepted - rotating mirror");
-        _rotator.Rotate(Vector3.back * _rotationAmount);
+        // Only proceed with mirror tap event if not dragging AND tap is over this mirror
+        if (_isDragging)
+        {
+            Debug.Log($"[{_mirror.name}] Tap ignored - currently dragging");
+            return;
+        }
+        
+        if (!isOverMirror)
+        {
+            Debug.Log($"[{_mirror.name}] Tap ignored - not over this mirror");
+            return;
+        }
+        
+        Debug.Log($"[{_mirror.name}] ✓✓✓ SETTED MIRROR TAP - Firing cleanup event ✓✓✓");
+        
+        // Setted mirrors don't rotate - they trigger cleanup
+        // _rotator.Rotate(Vector3.back * _rotationAmount);
+        
+        // Fire the tap event for cleanup
         OnMirrorTapped?.Invoke(_mirror);
+        
+        Debug.Log($"[{_mirror.name}] ===== HANDLE TAP END =====");
     }
     
     public void HandleDragDelta(Vector2 previousScreen, Vector2 currentScreen)
@@ -76,16 +115,20 @@ public class MirrorInputHandler : IMirrorInputHandler
         if (!_isDragging)
         {
             _isDragging = true;
+            Debug.Log($"[{_mirror.name}] Dragging started");
         }
         
         Vector2 delta = currentScreen - previousScreen;
         float rotationDelta = delta.x * _dragSpeed;
         if (_invertDrag) rotationDelta = -rotationDelta;
         
-        Vector3 e = _mirror.mirrorPointRef.eulerAngles;
-        _mirror.mirrorPointRef.eulerAngles = new Vector3(e.x, e.y, e.z + rotationDelta);
-        
-        _mirror.lineController?.ShotRayline(_mirror.mirrorPointRef.up, 100f);
+        if (_mirror.mirrorPointRef != null)
+        {
+            Vector3 e = _mirror.mirrorPointRef.eulerAngles;
+            _mirror.mirrorPointRef.eulerAngles = new Vector3(e.x, e.y, e.z + rotationDelta);
+            
+            _mirror.lineController?.ShotRayline(_mirror.mirrorPointRef.up, 100f);
+        }
     }
     
     public void HandleDragEnd(Vector2 screenPos)
@@ -93,13 +136,15 @@ public class MirrorInputHandler : IMirrorInputHandler
         if (_isDragging)
         {
             _isDragging = false;
+            Debug.Log($"[{_mirror.name}] Dragging ended");
         }
     }
     
     public void HandlePinch(float delta)
     {
-        _rotationAmount += delta * 0.02f; // Default sensitivity
+        _rotationAmount += delta * 0.02f;
         _rotationAmount = Mathf.Clamp(_rotationAmount, 1f, 90f);
+        Debug.Log($"[{_mirror.name}] Rotation amount updated to: {_rotationAmount}");
     }
     
     public void UpdateRotationAmount(float amount)

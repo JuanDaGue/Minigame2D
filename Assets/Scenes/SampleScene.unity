@@ -552,6 +552,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   linePoints: []
   generalLightLine: {fileID: 285136557}
+  lineWidth: 0.1
+  lineGradient:
+    serializedVersion: 2
+    key0: {r: 1, g: 1, b: 1, a: 1}
+    key1: {r: 1, g: 1, b: 1, a: 1}
+    key2: {r: 0, g: 0, b: 0, a: 0}
+    key3: {r: 0, g: 0, b: 0, a: 0}
+    key4: {r: 0, g: 0, b: 0, a: 0}
+    key5: {r: 0, g: 0, b: 0, a: 0}
+    key6: {r: 0, g: 0, b: 0, a: 0}
+    key7: {r: 0, g: 0, b: 0, a: 0}
+    ctime0: 0
+    ctime1: 65535
+    ctime2: 0
+    ctime3: 0
+    ctime4: 0
+    ctime5: 0
+    ctime6: 0
+    ctime7: 0
+    atime0: 0
+    atime1: 65535
+    atime2: 0
+    atime3: 0
+    atime4: 0
+    atime5: 0
+    atime6: 0
+    atime7: 0
+    m_Mode: 0
+    m_ColorSpace: -1
+    m_NumColorKeys: 2
+    m_NumAlphaKeys: 2
+  lineMaterial: {fileID: 2100000, guid: 15d6e7b48db15ee438263e5587c4e4fa, type: 2}
 --- !u!4 &292471341 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3042958918514491564, guid: a3f4fcb8dab0b7b469f9a4b344c6bb29, type: 3}
@@ -11172,37 +11204,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1363248408}
   m_CullTransparentMesh: 1
---- !u!1 &1402628247
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1402628248}
-  m_Layer: 0
-  m_Name: w
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1402628248
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1402628247}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.27, y: 4.83, z: -1.9602945}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1423405024
 GameObject:
   m_ObjectHideFlags: 0
@@ -21604,13 +21605,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3c7dbecfe6dda44a88913212271d9de, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mirrorControllers: []
   laserLinePoints: {fileID: 285136558}
-  currentMirror: {fileID: 4627168780758297520}
-  currentLineController: {fileID: 4627168780758297523}
   globalTime: {fileID: 654512965}
-  LigthReductionAmount: 2
+  lightReductionAmount: 0.1
   camerasManager: {fileID: 10892778}
+  initialMirrors: []
+  startingMirror: {fileID: 4627168780758297520}
 --- !u!4 &1484376937 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3065683322519482641, guid: 6a357d4f3182c574f9dd2d8350d8f2b3, type: 3}
@@ -22905,17 +22905,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8151b56c3ad255d4b8875e3f0211e18b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4627168780758297523 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4796915069354616516, guid: ea0d75e6d343b5748966d34a7e1f70a6, type: 3}
-  m_PrefabInstance: {fileID: 4627168780758297517}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1849261140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fd36037c61515843a4434f984edfc6a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &8343344921448545099
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22989,4 +22978,3 @@ SceneRoots:
   - {fileID: 1337560669}
   - {fileID: 137224505}
   - {fileID: 1640059197}
-  - {fileID: 1402628248}

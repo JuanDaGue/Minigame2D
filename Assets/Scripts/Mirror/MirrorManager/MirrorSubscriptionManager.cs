@@ -22,9 +22,14 @@ public class MirrorSubscriptionManager : IMirrorSubscriptionManager
     
     public void SubscribeAll()
     {
+        //Debug.Log($"[MirrorSubscriptionManager] Subscribing ALL {_mirrorCollection.Mirrors.Count} mirrors");
+        
         foreach (var mirror in _mirrorCollection.Mirrors)
         {
-            SubscribeMirror(mirror);
+            if (mirror != null)
+            {
+                SubscribeMirror(mirror);
+            }
         }
     }
     
@@ -32,7 +37,10 @@ public class MirrorSubscriptionManager : IMirrorSubscriptionManager
     {
         foreach (var mirror in _mirrorCollection.Mirrors)
         {
-            UnsubscribeMirror(mirror);
+            if (mirror != null)
+            {
+                UnsubscribeMirror(mirror);
+            }
         }
     }
     
@@ -40,7 +48,9 @@ public class MirrorSubscriptionManager : IMirrorSubscriptionManager
     {
         if (mirror == null) return;
         
-        // Subscribe to tap events
+        //Debug.Log($"[MirrorSubscriptionManager] Subscribing mirror: {mirror.name}");
+        
+        // Unsubscribe first to avoid duplicates
         mirror.OnMirrorTapped -= HandleMirrorTapped;
         mirror.OnMirrorTapped += HandleMirrorTapped;
         
@@ -52,18 +62,20 @@ public class MirrorSubscriptionManager : IMirrorSubscriptionManager
             lineController.OnMirrorHit += HandleMirrorHit;
         }
         
+        // Subscribe inputs ALWAYS (for all mirrors)
+        mirror.OnInputsSubscribe();
+        
         // Subscribe to laser line points
         _laserLinePoints?.SubscribeLinePoints(mirror.transform);
         
-        // Subscribe inputs
-        mirror.OnInputsSubscribe();
-        
-        Debug.Log($"[MirrorSubscriptionManager] Subscribed to mirror: {mirror.name}");
+        //Debug.Log($"[MirrorSubscriptionManager] ✓ Subscribed to mirror: {mirror.name}");
     }
     
     public void UnsubscribeMirror(MirrorMoveController mirror)
     {
         if (mirror == null) return;
+        
+        //Debug.Log($"[MirrorSubscriptionManager] Unsubscribing mirror: {mirror.name}");
         
         // Unsubscribe from tap events
         mirror.OnMirrorTapped -= HandleMirrorTapped;
@@ -78,16 +90,30 @@ public class MirrorSubscriptionManager : IMirrorSubscriptionManager
         // Unsubscribe inputs
         mirror.OnInputsUnsubscribe();
         
-        Debug.Log($"[MirrorSubscriptionManager] Unsubscribed from mirror: {mirror.name}");
+        //Debug.Log($"[MirrorSubscriptionManager] ✓ Unsubscribed from mirror: {mirror.name}");
     }
     
     private void HandleMirrorTapped(MirrorMoveController tapped)
     {
+        //Debug.Log($"[MirrorSubscriptionManager] Mirror tapped event: {tapped?.name}");
         OnMirrorTapped?.Invoke(tapped);
     }
     
     private void HandleMirrorHit(MirrorMoveController controller)
     {
+        //Debug.Log($"[MirrorSubscriptionManager] Mirror hit event: {controller?.name}");
         OnMirrorHit?.Invoke(controller);
+    }
+    
+    // Resubscribe all mirrors (for after cleanup)
+    public void ResubscribeAll()
+    {
+        //Debug.Log($"[MirrorSubscriptionManager] Resubscribing ALL mirrors");
+        
+        // First unsubscribe all
+        UnsubscribeAll();
+        
+        // Then subscribe all
+        SubscribeAll();
     }
 }

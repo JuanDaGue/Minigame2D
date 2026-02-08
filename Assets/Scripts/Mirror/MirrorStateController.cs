@@ -24,17 +24,17 @@ public class MirrorStateController : IMirrorStateController
             case MirrorState.Active:
                 Debug.Log($"[{_mirror.name}] Mirror is now Active");
                 _mirrorLight?.ForceActivate();
-                CanMoveObject = true;
+                CanMoveObject = true;  // Active mirrors can move
                 break;
             case MirrorState.Deactive:
                 Debug.Log($"[{_mirror.name}] Mirror is now Deactive");
                 _mirrorLight?.ForceDeactivate();
-                CanMoveObject = false;
+                CanMoveObject = false; // Deactive mirrors cannot move
                 break;
             case MirrorState.Setted:
                 Debug.Log($"[{_mirror.name}] Mirror is now Setted");
                 _mirrorLight?.ForceActivate();
-                CanMoveObject = false;
+                CanMoveObject = false; // Setted mirrors cannot move but can be tapped for cleanup
                 break;
         }
     }

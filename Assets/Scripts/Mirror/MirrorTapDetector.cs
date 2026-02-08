@@ -27,6 +27,12 @@ public class MirrorTapDetector : IMirrorTapDetector
             return false;
         }
         
+        if (!_stateController.CanMoveObject && _stateController.CurrentState != MirrorState.Setted)
+        {
+            Debug.Log($"[{_mirror.name}] Mirror cannot move and is not Setted - ignoring tap");
+            return false;
+        }
+        
         if (_camera == null || _mirrorPoint == null) 
         {
             Debug.LogWarning($"[{_mirror.name}] No camera or mirror point available");
@@ -35,19 +41,23 @@ public class MirrorTapDetector : IMirrorTapDetector
         
         try
         {
-            float zDepth = Mathf.Abs(_camera.transform.position.z - _mirrorPoint.position.z);
-            if (Mathf.Approximately(zDepth, 0)) zDepth = 10f;
+            // Convert screen to world point
+            Vector3 worldPoint = ConvertScreenToWorld(screenPos);
+            Vector2 worldPoint2D = new Vector2(worldPoint.x, worldPoint.y);
             
-            Vector3 worldPoint3D = _camera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, zDepth));
-            Vector2 worldPoint2D = new Vector2(worldPoint3D.x, worldPoint3D.y);
+            Debug.Log($"[{_mirror.name}] Checking tap at world: {worldPoint2D}");
             
-            Debug.Log($"[{_mirror.name}] Screen {screenPos} -> World {worldPoint2D}, zDepth: {zDepth}");
+            // Try both methods
+            bool isOverMirror = CheckOverlapPoint(worldPoint2D);
             
-            // Method 1: OverlapPoint
-            return CheckOverlapPoint(worldPoint2D);
+            if (!isOverMirror)
+            {
+                // Fallback to raycast
+                isOverMirror = CheckRaycast(screenPos);
+            }
             
-            // Method 2: Raycast (uncomment to use)
-            // return CheckRaycast(screenPos);
+            Debug.Log($"[{_mirror.name}] Is tap over this mirror? {isOverMirror}");
+            return isOverMirror;
         }
         catch (System.Exception e)
         {
@@ -56,21 +66,53 @@ public class MirrorTapDetector : IMirrorTapDetector
         }
     }
     
+    private Vector3 ConvertScreenToWorld(Vector2 screenPos)
+    {
+        // Get the distance from camera to mirror in world space
+        float zDepth = Mathf.Abs(_camera.transform.position.z);
+        
+        // If using orthographic camera for 2D
+        if (_camera.orthographic)
+        {
+            Vector3 worldPoint = _camera.ScreenToWorldPoint(new Vector3(screenPos.x, screenPos.y, 
+                _camera.nearClipPlane));
+            return new Vector3(worldPoint.x, worldPoint.y, _mirrorPoint.position.z);
+        }
+        else
+        {
+            // For perspective camera
+            Ray ray = _camera.ScreenPointToRay(new Vector3(screenPos.x, screenPos.y, 0));
+            Plane plane = new Plane(Vector3.forward, _mirrorPoint.position);
+            float distance;
+            
+            if (plane.Raycast(ray, out distance))
+            {
+                return ray.GetPoint(distance);
+            }
+            
+            return Vector3.zero;
+        }
+    }
+    
     private bool CheckOverlapPoint(Vector2 worldPoint)
     {
-        Collider2D[] hits = Physics2D.OverlapPointAll(worldPoint);
+        // Use a small radius to account for precision issues
+        float checkRadius = 0.1f;
+        Collider2D[] hits = Physics2D.OverlapCircleAll(worldPoint, checkRadius);
         
-        if (hits.Length > 0)
+        Debug.Log($"[{_mirror.name}] Found {hits.Length} colliders at point {worldPoint}:");
+        
+        foreach (Collider2D hit in hits)
         {
-            Debug.Log($"[{_mirror.name}] Found {hits.Length} colliders:");
-            foreach (Collider2D hit in hits)
+            if (hit == null) continue;
+            
+            Debug.Log($"  - {hit.name} (Parent: {hit.transform.parent?.name})");
+            
+            // Check multiple ways this could be our mirror
+            if (IsOurMirror(hit.transform))
             {
-                Debug.Log($"  - {hit.name}");
-                if (IsOurMirror(hit.transform))
-                {
-                    Debug.Log($"[{_mirror.name}] ✓ Hit detected on THIS mirror!");
-                    return true;
-                }
+                Debug.Log($"[{_mirror.name}] ✓ Hit detected on THIS mirror!");
+                return true;
             }
         }
         
@@ -82,11 +124,17 @@ public class MirrorTapDetector : IMirrorTapDetector
         Ray ray = _camera.ScreenPointToRay(new Vector3(screenPos.x, screenPos.y, 0));
         RaycastHit2D[] hits = Physics2D.GetRayIntersectionAll(ray, Mathf.Infinity, _layerMask);
         
+        Debug.Log($"[{_mirror.name}] Raycast found {hits.Length} hits");
+        
         foreach (RaycastHit2D hit in hits)
         {
-            if (hit.collider != null && IsOurMirror(hit.collider.transform))
+            if (hit.collider != null)
             {
-                return true;
+                Debug.Log($"  - Hit: {hit.collider.name}");
+                if (IsOurMirror(hit.collider.transform))
+                {
+                    return true;
+                }
             }
         }
         
@@ -95,9 +143,24 @@ public class MirrorTapDetector : IMirrorTapDetector
     
     private bool IsOurMirror(Transform hitTransform)
     {
-        return hitTransform == _mirror.transform || 
-               hitTransform == _mirrorPoint || 
-               hitTransform.IsChildOf(_mirror.transform) || 
-               (_mirrorPoint != null && hitTransform.IsChildOf(_mirrorPoint));
+        // Check direct match
+        if (hitTransform == _mirror.transform || hitTransform == _mirrorPoint)
+            return true;
+        
+        // Check if it's a child of our mirror
+        if (hitTransform.IsChildOf(_mirror.transform))
+            return true;
+        
+        // Check if it's the mirrorPoint or its child
+        if (_mirrorPoint != null && 
+            (hitTransform == _mirrorPoint || hitTransform.IsChildOf(_mirrorPoint)))
+            return true;
+        
+        // Check by name pattern (fallback)
+        if (hitTransform.name.Contains(_mirror.name) || 
+            _mirror.name.Contains(hitTransform.name))
+            return true;
+        
+        return false;
     }
 }

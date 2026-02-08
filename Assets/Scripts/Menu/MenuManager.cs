@@ -17,7 +17,6 @@ public class MenuManager : MonoBehaviour
         {
             ligthsController = EmiterLight.GetComponent<LigthsController>();
         }
-        //GameManager.Instance.SetState(GameManager.States.Pause);
     }
 
 
@@ -30,7 +29,7 @@ public class MenuManager : MonoBehaviour
 
         GameManager.Instance.SetState(GameManager.States.InGame);
 
-        // Find MirrorManager2 if not assigned
+        // Initialize mirrors now that the game is InGame
         if (mirrorManager == null)
         {
             mirrorManager = FindFirstObjectByType<MirrorManager2>();
@@ -53,7 +52,6 @@ public class MenuManager : MonoBehaviour
         // Initialize the mirror manager
         if (mirrorManager != null)
         {
-            // Use Initialize() instead of InitializeForGame()
             mirrorManager.Initialize();
             Debug.Log("[MenuManager] MirrorManager initialized");
         }

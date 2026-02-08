@@ -1,7 +1,9 @@
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.EventSystems;
 using System;
 using UnityEngine.Rendering.Universal;
+using System.Collections;
 
 [RequireComponent(typeof(LineController))]
 public class MirrorMoveController : MonoBehaviour
@@ -38,6 +40,36 @@ public class MirrorMoveController : MonoBehaviour
     public LineController lineController => _lineController;
     public event Action<MirrorMoveController> OnMirrorTapped;
     
+    // Runtime
+    private bool isDragging = false;
+    private Coroutine lightToggleCoroutine;
+
+    public float RotationAmount
+    {
+        get => rotationAmount;
+        set
+        {
+            rotationAmount = value;
+            Debug.Log($"[MirrorMoveController] RotationAmount set to {rotationAmount}");
+        }
+    }
+
+    public MirrorState MirrorState
+    {
+        get => mirrorState;
+        set
+        {
+            mirrorState = value;
+            Debug.Log($"[MirrorMoveController] MirrorState set to {mirrorState}");
+        }
+    }
+
+    public bool CanMoveObject
+    {
+        get => canMoveObject;
+        set => canMoveObject = value;
+    }
+
     private void Awake()
     {
         InitializeComponents();
@@ -52,7 +84,7 @@ public class MirrorMoveController : MonoBehaviour
         _mainCamera = Camera.main;
         if (_mainCamera == null)
         {
-            Debug.LogWarning($"[{name}] No main camera found");
+            Debug.LogWarning($"[MirrorMoveController] No main camera found");
             _mainCamera = FindFirstObjectByType<Camera>();
         }
     }
@@ -129,10 +161,11 @@ public class MirrorMoveController : MonoBehaviour
     public void SwitchMirrorState(MirrorState newState)
     {
         _stateController.SwitchState(newState);
+        mirrorState = newState; // Keep serialized field in sync
     }
     
     // Public properties
-    public float RotationAmount
+    public float RotationAmountProperty
     {
         get => rotationAmount;
         set
@@ -145,14 +178,6 @@ public class MirrorMoveController : MonoBehaviour
         }
     }
     
-    public MirrorState MirrorState => _stateController.CurrentState;
-    
-    public bool CanMoveObject
-    {
-        get => canMoveObject;
-        set => canMoveObject = value;
-    }
-    
     // Editor testing
     private void OnMouseDown()
     {
@@ -161,4 +186,28 @@ public class MirrorMoveController : MonoBehaviour
         Vector2 mousePos = Input.mousePosition;
         _inputHandler.HandleTap(mousePos);
     }
+    
+    // Gizmos for debugging in editor
+    #if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        if (mirrorPoint != null)
+        {
+            Gizmos.color = GetStateColor();
+            Gizmos.DrawWireSphere(mirrorPoint.position, 0.3f);
+            Gizmos.DrawLine(mirrorPoint.position, mirrorPoint.position + mirrorPoint.up * 1f);
+        }
+    }
+    
+    private Color GetStateColor()
+    {
+        switch (mirrorState)
+        {
+            case MirrorState.Active: return Color.green;
+            case MirrorState.Setted: return Color.yellow;
+            case MirrorState.Deactive: return Color.red;
+            default: return Color.gray;
+        }
+    }
+    #endif
 }
